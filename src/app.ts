@@ -1,4 +1,5 @@
 import { FlockSDF } from './flockSDF'
+import { Flock } from './flock'
 import { GameOfLife } from './gameOfLife'
 
 export class GPUApp {
@@ -38,8 +39,19 @@ export class GPUApp {
   public init(){
 
     this.setupWebGPU(this.canvas).then(()=>{
-    const game = new GameOfLife(this.device!, this.context!, this.format!);
-    game.start()
+        
+        const id:number = 0;
+        switch (id){
+            case 1: {
+                const game = new GameOfLife({device: this.device!, context: this.context!, textureFormat: this.format!, workgroupSize: 8, gridSize: 32});
+                game.start()
+            }
+            break;
+            default: {
+                const flock = new Flock({device: this.device!, context: this.context!, textureFormat: this.format!, workgroupSize: 8});
+                flock.start()
+            }
+        }
     });
   }
 
