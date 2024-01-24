@@ -1,6 +1,7 @@
 import { FlockSDF } from './flockSDF'
 import { Flock } from './flock'
 import { GameOfLife } from './gameOfLife'
+import { PerlinNoise } from './perlinNoise';
 
 export class GPUApp {
   private context: GPUCanvasContext | null = null;
@@ -11,50 +12,30 @@ export class GPUApp {
 
   constructor(){
     this.canvas = document.querySelector("canvas#webgpuApp") as HTMLCanvasElement;
-    
   }
 
-  private async setupWebGPU(canvas: HTMLCanvasElement){
-    if (!navigator.gpu) {
-      throw new Error("WebGPU not supported on this browser.");
-    }
-    
-    const adapter = await navigator.gpu.requestAdapter({powerPreference:'high-performance'});
-    if (!adapter) {
-      throw new Error("No appropriate GPUAdapter found.");
-    }
-    
-    this.context = canvas.getContext("webgpu");
-    this.format = navigator.gpu.getPreferredCanvasFormat();
-    
-    await adapter.requestDevice().then((device)=> {
-      this.device = device;
-      (this.context as GPUCanvasContext).configure({
-        device,
-        format: this.format!,
-      });
-    });
-  }
+  
 
   public init(){
-
-    this.setupWebGPU(this.canvas).then(()=>{
         
-        const id:number = 0;
+        const id:number = 2;
         switch (id){
             case 1: {
-                const game = new GameOfLife({device: this.device!, context: this.context!, textureFormat: this.format!, workgroupSize: 8, gridSize: 32});
-                game.start()
+                const game = new GameOfLife();
+                game?.init(this.canvas).then(()=>{
+                    game.start()
+                })
+            }
+            break;
+            case 2: {
+                const game = new PerlinNoise(this.canvas);
             }
             break;
             default: {
-                const flock = new Flock({device: this.device!, context: this.context!, textureFormat: this.format!, workgroupSize: 8});
-                flock.start()
+                const game = new Flock();
             }
         }
-    });
-  }
-
+    }
 }
 
 

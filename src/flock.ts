@@ -4,8 +4,11 @@ export class Flock {
     private context: GPUCanvasContext;
     private textureFormat: GPUTextureFormat;
 
-    constructor(opt: {device: GPUDevice, context: GPUCanvasContext, textureFormat: GPUTextureFormat, workgroupSize:number} ){
-        ({ device: this.device, context: this.context, textureFormat: this.textureFormat, workgroupSize: this.workgroupSize } = opt);
+    constructor(){
+    }
+
+    public async init(canvas:HTMLCanvasElement){
+        
     }
 
     public start(){
