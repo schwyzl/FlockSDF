@@ -2,6 +2,7 @@ import { FlockSDF } from './flockSDF'
 import { Flock } from './flock'
 import { GameOfLife } from './gameOfLife'
 import { PerlinNoise } from './perlinNoise';
+import { MultiCanvasGPU } from './multiCanvasGPU';
 
 export class GPUApp {
   private context: GPUCanvasContext | null = null;
@@ -18,7 +19,7 @@ export class GPUApp {
 
   public init(){
         
-        const id:number = 2;
+        const id:number = 3;
         switch (id){
             case 1: {
                 const game = new GameOfLife();
@@ -29,6 +30,13 @@ export class GPUApp {
             break;
             case 2: {
                 const game = new PerlinNoise(this.canvas);
+            }
+            break;
+            case 3: {
+                const game = new MultiCanvasGPU();
+                game?.init().then(()=>{
+                    game.start()
+                })
             }
             break;
             default: {

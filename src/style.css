@@ -12,6 +12,10 @@
 * { margin:0; padding:0; }
 html, body { width:100%; height:100vh; }
 canvas#webgpuApp {
-  display:block;
-
+}
+canvas.sized {
+  /* display:block; */
+  image-rendering: pixelated;
+  width: 512px;
+  height: 512px;
 }

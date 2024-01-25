@@ -11,7 +11,7 @@ export class GameOfLife{
   private cellPipeline?: GPURenderPipeline;
   private bindGroups?: GPUBindGroup[];
   private vertexBuffer?: GPUBuffer;
-  private textureFormat?: GPUTextureFormat;
+  private presentationFormat?: GPUTextureFormat;
 
   private time = 0;
   private lastTime = rightNow();
@@ -50,13 +50,13 @@ export class GameOfLife{
     }
     
     this.context = canvas.getContext("webgpu");
-    this.textureFormat = navigator.gpu.getPreferredCanvasFormat();
+    this.presentationFormat = navigator.gpu.getPreferredCanvasFormat();
     
     await adapter.requestDevice().then((device)=> {
       this.device = device;
       (this.context as GPUCanvasContext).configure({
         device,
-        format: this.textureFormat!,
+        format: this.presentationFormat!,
       });
     });
   }
@@ -258,7 +258,7 @@ export class GameOfLife{
         module: cellShaderModule,
         entryPoint: "fragmentMain",
         targets: [{
-          format: this.textureFormat!
+          format: this.presentationFormat!
         }]
       }
     });
